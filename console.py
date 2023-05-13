@@ -7,9 +7,13 @@ from models import storage
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
 from models.review import Review
 
-lists = ['BaseModel', 'User', 'Place', 'Review']
+lists = ['BaseModel', 'User', 'Place','State', 
+         'City','Amenity', 'Review']
 
 
 class HBNBCommand(cmd.Cmd):
@@ -45,13 +49,19 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in lists:
             print('** class doesn\'t exist **')
 
-        else:
+        else:                   
             if arg == 'BaseModel':
                 arg = BaseModel()
             elif arg == 'User':
                 arg = User()
             elif arg == 'Place':
                 arg = Place()
+            elif arg == 'State':
+                arg = State()
+            elif arg == 'City':
+                arg = City()
+            elif arg == 'Amenity':
+                arg = Amenity()
             elif arg == 'Review':
                 arg = Review()
 
