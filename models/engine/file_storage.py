@@ -35,10 +35,15 @@ class FileStorage:
     def reload(self):
         """deserializes the JSON file to __objects if it exists"""
         from models.base_model import BaseModel
-        dicts = {'BaseModel': BaseModel}
+        from models.user import User
+        from models.place import Place
+        from models.review import Review
+
+        dicts = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                'Review': Review}
 
         if os.path.exists(FileStorage.__file_path) is True:
             with open(FileStorage.__file_path, "r") as from_file:
                 js = json.load(from_file)
-                for k in js:
-                    self.__objects[k] = dicts[js[k]["__class__"]](**js[k])
+                for k, v in js.items():
+                    self.__objects[k] = dicts[v["__class__"]](**v)
