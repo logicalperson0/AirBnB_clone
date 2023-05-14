@@ -12,13 +12,13 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-lists = ['BaseModel', 'User', 'Place','State', 
-         'City','Amenity', 'Review']
-
 
 class HBNBCommand(cmd.Cmd):
     """CL Interpreter"""
     prompt = '(hbnb) '
+
+    lists = ['BaseModel', 'User', 'Place', 'State',
+             'City', 'Amenity', 'Review']
 
     def help_quit(self):
         print('Quit command to exit the program\n')
@@ -46,10 +46,10 @@ class HBNBCommand(cmd.Cmd):
         """lists = ['BaseModel', 'User']"""
         if not arg:
             print('** class name missing **')
-        elif arg not in lists:
+        elif arg not in self.lists:
             print('** class doesn\'t exist **')
 
-        else:                   
+        else:
             if arg == 'BaseModel':
                 arg = BaseModel()
             elif arg == 'User':
@@ -79,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
@@ -111,7 +111,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
         close_b = '"]'
         """lists = ['BaseModel', 'User']"""
 
-        if len(arg) == 0 or arg in lists:
+        if len(arg) == 0 or arg in self.lists:
             print(open_b, end="")
 
             dicts = storage.all()
@@ -151,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
                 print(dicts[obj_key], end="")
             print(close_b)
 
-        elif arg not in lists:
+        elif arg not in self.lists:
             print('** class doesn\'t exist **')
 
     def do_update(self, arg):
@@ -172,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
