@@ -20,7 +20,8 @@ class HBNBCommand(cmd.Cmd):
     __lists = ['BaseModel', 'User', 'Place', 'State',
                'City', 'Amenity', 'Review']
 
-    __methods = ['all', 'count']
+    __methods_ac = ['all', 'count']
+    __methods_sd = ['show', 'destroy']
 
     def help_quit(self):
         print('Quit command to exit the program\n')
@@ -48,9 +49,16 @@ class HBNBCommand(cmd.Cmd):
         swargs = arg.split('.')
 
         if swargs[0] in self.__lists:
+
             swargs1 = swargs[1].split('(')
-            if swargs1[0] in self.__methods:
+            swargs2 = swargs1[1].split(')')
+            ids = swargs2[0].strip('"\'')
+
+            if swargs1[0] in self.__methods_ac:
                 arg = swargs1[0] + ' ' + swargs[0]
+
+            elif swargs1[0] in self.__methods_sd:
+                arg = swargs1[0] + ' ' + swargs[0] + ' ' + ids
 
         return arg
 
