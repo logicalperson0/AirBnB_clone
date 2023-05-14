@@ -12,13 +12,15 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-lists = ['BaseModel', 'User', 'Place','State', 
-         'City','Amenity', 'Review']
-
 
 class HBNBCommand(cmd.Cmd):
     """CL Interpreter"""
     prompt = '(hbnb) '
+
+    __lists = ['BaseModel', 'User', 'Place', 'State',
+               'City', 'Amenity', 'Review']
+
+    __methods = ['all']
 
     def help_quit(self):
         print('Quit command to exit the program\n')
@@ -38,6 +40,20 @@ class HBNBCommand(cmd.Cmd):
         """
         return True
 
+    def precmd(self, arg):
+        """Hook method executed just before the command line
+        "line" is interpreted, but after the input prompt
+        is generated and issued. The return value is used
+        as the command which will be executed."""
+        swargs = arg.split('.')
+
+        if swargs[0] in self.__lists:
+            swargs1 = swargs[1].split('(')
+            if swargs1[0] in self.__methods:
+                arg = swargs1[0] + ' ' + swargs[0]
+
+        return arg
+
     def do_create(self, arg):
         """Creates a new instance of BaseModel,
         saves it (to the JSON file) and prints the id
@@ -46,10 +62,10 @@ class HBNBCommand(cmd.Cmd):
         """lists = ['BaseModel', 'User']"""
         if not arg:
             print('** class name missing **')
-        elif arg not in lists:
+        elif arg not in self.__lists:
             print('** class doesn\'t exist **')
 
-        else:                   
+        else:
             if arg == 'BaseModel':
                 arg = BaseModel()
             elif arg == 'User':
@@ -79,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.__lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
@@ -111,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.__lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
@@ -141,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
         close_b = '"]'
         """lists = ['BaseModel', 'User']"""
 
-        if len(arg) == 0 or arg in lists:
+        if len(arg) == 0 or arg in self.__lists:
             print(open_b, end="")
 
             dicts = storage.all()
@@ -151,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
                 print(dicts[obj_key], end="")
             print(close_b)
 
-        elif arg not in lists:
+        elif arg not in self.__lists:
             print('** class doesn\'t exist **')
 
     def do_update(self, arg):
@@ -172,7 +188,7 @@ class HBNBCommand(cmd.Cmd):
         if len(swargs) == 0:
             print('** class name missing **')
 
-        elif swargs[0] not in lists:
+        elif swargs[0] not in self.__lists:
             print('** class doesn\'t exist **')
 
         elif len(swargs) == 1:
