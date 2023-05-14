@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
     __lists = ['BaseModel', 'User', 'Place', 'State',
                'City', 'Amenity', 'Review']
 
-    __methods = ['all']
+    __methods = ['all', 'count']
 
     def help_quit(self):
         print('Quit command to exit the program\n')
@@ -213,6 +213,21 @@ class HBNBCommand(cmd.Cmd):
 
                 obj.__dict__[attri] = val
                 storage.save()
+
+    def do_count(self, arg):
+        """to retrieve the number of instances of a class
+        ex: User.count()
+        """
+        if arg in self.__lists:
+            counts = 0
+            dicts = storage.all()
+
+            for k, v in dicts.items():
+                obj_name = v.__class__.__name__
+
+                if (arg == obj_name):
+                    counts += 1
+            print(counts)
 
 
 if __name__ == '__main__':
